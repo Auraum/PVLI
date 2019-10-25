@@ -25,7 +25,7 @@ this.load.image('ball','sprites/ball.png');
 function create ()
 {
 this.cursors = this.input.keyboard.createCursorKeys();
-ball = this.physics.add.sprite(400,300,'ball');
+let ball = this.physics.add.sprite(400,300,'ball');
 ball.scale.setTo(50,50);
 }
 
