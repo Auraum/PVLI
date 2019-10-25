@@ -26,6 +26,7 @@ function create ()
 {
 this.cursors = this.input.keyboard.createCursorKeys();
 ball = this.physics.add.sprite(400,300,'ball');
+ball.scale.setTo(50,50);
 }
 
 function update ()
