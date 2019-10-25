@@ -43,16 +43,16 @@ ball = this.physics.add.sprite(400,300,'ball');
 function update ()
 {
 if (this.cursors.up.isDown) {
-  ball.body.setVelocityY(-50);
+  ball.body.setVelocityY(-200);
 }
 else if (this.cursors.down.isDown) {
-  ball.body.setVelocityY(+50);
+  ball.body.setVelocityY(+200);
 }
 else if (this.cursors.left.isDown) {
-  ball.body.setVelocityX(-50);
+  ball.body.setVelocityX(-200);
 }
 else if (this.cursors.right.isDown) {
-  ball.body.setVelocityX(50);
+  ball.body.setVelocityX(200);
 }
 else {
   ball.body.setVelocityY(0);
