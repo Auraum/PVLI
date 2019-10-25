@@ -47,3 +47,5 @@ else {
   ball.body.setVelocityX(0);
 }
 }
+
+export Game;
