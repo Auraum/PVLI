@@ -8,6 +8,9 @@
 <font face=verdana color=mediumspringgreen>
   <div align = center> <h1>Super Smash Ball</h1> </div>
   </font>
-<script src="js/game.js"></script>
+<script type="module">
+  import Game from './game.js';
+  document.game = new Game();
+</script>
 </body>
 </html>
