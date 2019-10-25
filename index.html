@@ -31,30 +31,26 @@ this.load.image('ball','sprites/ball.png');
 function create ()
 {
 this.cursors = this.input.keyboard.createCursorKeys();
-ball = this.add.sprite(400,300,'ball');
-function move()
-{
-if (this.cursors.up.isDown) {
-  this.body.setVelocityY(1);
-}
-else if (this.cursors.down.isDown) {
-  this.body.setVelocityY(-1);
-}
-else if (this.cursors.left.isDown) {
-  this.body.setVelocityX(-1);
-}
-else if (this.cursors.right.isDown) {
-  this.body.setVelocityX(1);
-}
-else {
-  this.body.setVelocityX(0);
-}
-}
+ball = this.physics.add.sprite(400,300,'ball');
 }
 
 function update ()
 {
-move().apply(ball);
+if (this.cursors.up.isDown) {
+  ball.body.setVelocityY(1);
+}
+else if (this.cursors.down.isDown) {
+  ball.body.setVelocityY(-1);
+}
+else if (this.cursors.left.isDown) {
+  ball.body.setVelocityX(-1);
+}
+else if (this.cursors.right.isDown) {
+  ball.body.setVelocityX(1);
+}
+else {
+  ball.body.setVelocityX(0);
+}
 }
 
     </script>
