@@ -32,8 +32,8 @@ function create ()
 {
 this.cursors = this.input.keyboard.createCursorKeys();
 ball = this.physics.add.sprite(400,300,'ball');
-ball{
-function move(){
+function move()
+{
 if (this.cursors.up.isDown) {
   this.body.setVelocityY(1);
 }
@@ -50,13 +50,13 @@ else {
   this.body.setVelocityX(0);
 }
 }
-}
+
 
 function update ()
 {
 ball.move();
 }
-}
+
     </script>
 
 </body>
