@@ -30,14 +30,28 @@ this.load.image('ball','sprites/ball.png');
 
 function create ()
 {
-game.scale.pageAlignHorizontally = true;
-game.scale.pageAlignVertically = true;
-game.scale.refresh();
-player = this.add.image(400,300,'ball');
+this.cursors = this.input.keyboard.createCursorKeys();
+//canvas {   display : block;   margin : auto;}
+ball = this.add.sprite(400,300,'ball');
 }
 
 function update ()
 {
+if (this.cursors.up.isDown) {
+  ball.setVelocityY(1);
+}
+else if (this.cursors.down.isDown) {
+  ball.setVelocityY(-1);
+}
+else if (this.cursors.left.isDown) {
+  this.body.setVelocityX(-1);
+}
+else if (this.cursors.right.isDown) {
+  ball.setVelocityX(1);
+}
+else {
+  ball.setVelocityX(0);
+}
 }
     </script>
 
