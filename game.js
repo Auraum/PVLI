@@ -48,4 +48,4 @@ else {
 }
 }
 
-export Game;
+export game;
