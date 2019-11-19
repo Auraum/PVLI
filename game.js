@@ -1,3 +1,47 @@
+class Match extends Phaser.Scene{
+
+    constructor ()
+    {
+        super({ key: 'Match', active: true });
+    }
+
+preload()
+{
+this.load.image('bg','sprites/background.png' )
+this.load.image('ball','sprites/ball.png');
+this.load.image('player1', 'sprites/player1.jpg');
+this.load.image('player2', 'sprites/player2.jpg');
+}
+
+create()
+{
+this.bg = this.add.image(700,150,'bg');
+this.bg.setScale(1.4);
+this.matter.world.setBounds(0, 0, config.width, config.height);
+this.cursors1 = this.input.keyboard.createCursorKeys();
+this.cursors2 = this.input.keyboard.addKeys({
+    up: Phaser.Input.Keyboard.KeyCodes.W,
+    down: Phaser.Input.Keyboard.KeyCodes.S,
+    left: Phaser.Input.Keyboard.KeyCodes.A,
+    right: Phaser.Input.Keyboard.KeyCodes.D
+  });
+this.player1 = new Player(this, 100, 500, this.cursors1, 'player1');
+this.player2 = new Player(this, 1100, 500, this.cursors2, 'player2');
+this.ball = new Ball(this, 500, 500, 'ball');
+var leftGoal = Phaser.Physics.Matter.Matter.Bodies.circle(500,300,100,{isSensor: true});
+this.goal = this.matter.add.sprite(500,0,'player1');
+this.goal.setExistingBody(leftGoal);
+}
+
+update()
+{ 
+    this.player1.preUpdate();
+    this.player2.preUpdate();
+    this.ball.preUpdate();
+}
+
+};
+
 var config = {
     type: Phaser.AUTO,
     width: 1400,
@@ -9,48 +53,13 @@ var config = {
             gravity: {
               x : 0,
               y : 2
-            }
+            },
+            debug : true
         }
     },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    }
+    scene: Match
 };
 
 var game = new Phaser.Game(config);
-var cursors;
-var ball;
-
-function preload ()
-{
-this.load.image('ball','sprites/ball.png');
-}
-
-function create ()
-{
-
-ball = this.matter.add.image(config.width/2,config.height/2,'ball');
-ball.setBounce(1);
-cursors = this.input.keyboard.createCursorKeys();
-this.matter.world.setBounds(0, 0, config.width, config.height);
-ball.setScale(.25);
-}
-
-function update ()
-{ 
-
-if (cursors.up.isDown) {
-  ball.applyForce({x:0,y:-0.1});
-}
-else if (cursors.down.isDown) {
-  ball.applyForce({x:0,y:0.1});
-}
-else if (cursors.left.isDown) {
-  ball.applyForce({x:-0.1,y:0});
-}
-else if (cursors.right.isDown) {
-  ball.applyForce({x:0.1,y:0});
-}
-}
+import {Ball} from './ball.js'
+import {Player} from './player.js'
