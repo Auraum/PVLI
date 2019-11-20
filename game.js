@@ -25,16 +25,14 @@ cursors2 = this.input.keyboard.addKeys({
     left: Phaser.Input.Keyboard.KeyCodes.A,
     right: Phaser.Input.Keyboard.KeyCodes.D
   });
-player1 = new Player(this, 100, 500, cursors1, 'player1');
-player2 = new Player(this, 1300, 500, cursors2, 'player2');
-ball = new Ball(this, 670, 500, 'ball');
-leftGoal = new Hitbox(this, -30, 400, 100, 500, 'lg');
-rightGoal = new Hitbox(this, 1400, 400, 100, 500, 'rg');
-scoreboard = new Scoreboard(this);
 sensors = this.matter.world.nextCategory();
+player1 = new Player(this, 100, 500, cursors1, 'player1', sensors);
+player2 = new Player(this, 1300, 500, cursors2, 'player2', sensors);
+ball = new Ball(this, 670, 500, 'ball');
+leftGoal = new Hitbox(this, -30, 400, 100, 500, 'lg', sensors);
+rightGoal = new Hitbox(this, 1400, 400, 100, 500, 'rg', sensors);
+scoreboard = new Scoreboard(this);
 ball.setCollisionCategory(sensors);
-leftGoal.setCollidesWith([sensors]);
-rightGoal.setCollidesWith([sensors]);
 scoreboard.showScore();
 this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {      
     if (bodyA.isSensor)
@@ -92,5 +90,5 @@ var cursors1;
 var cursors2;
 import {Ball} from './ball.js'
 import {Player} from './player.js'
-import {Hitbox} from './hitbox'
+import {Hitbox} from './hitbox.js'
 import {Scoreboard} from './scoreboard.js'
