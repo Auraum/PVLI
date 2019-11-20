@@ -7,19 +7,19 @@ export class Player extends Phaser.Physics.Matter.Sprite{
     this.cursors = scenecursors;
   }
 	preUpdate(){
-  super.preUpdate()
-	if (this.cursors.up.isDown) {
-  super.applyForce({x:0,y:-0.05});
-}
-else if (this.cursors.down.isDown) {
-  super.applyForce({x:0,y:0.05});
-}
+    super.preUpdate()
+    if (this.cursors.up.isDown) {
+      super.applyForce({x:0,y:-0.05});
+    }
+    else if (this.cursors.down.isDown) {
+      super.applyForce({x:0,y:0.05});
+    }
 
-if (this.cursors.left.isDown) {
-  super.setVelocityX(-5);
-}
-else if (this.cursors.right.isDown) {
-  super.setVelocityX(5);
-	}	
-}
+    if (this.cursors.left.isDown) {
+      super.setVelocityX(-5);
+    }
+    else if (this.cursors.right.isDown) {
+      super.setVelocityX(5);
+    }	
+  }
 }

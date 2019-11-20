@@ -15,52 +15,49 @@ this.load.image('player2', 'sprites/player2.jpg');
 
 create()
 {
-this.bg = this.add.image(670,150,'bg');
-this.bg.setScale(1.4);
+bg = this.add.image(670,150,'bg');
+bg.setScale(1.4);
 this.matter.world.setBounds(0, 0, config.width, config.height);
-var cursors1 = this.input.keyboard.createCursorKeys();
-var cursors2 = this.input.keyboard.addKeys({
+cursors1 = this.input.keyboard.createCursorKeys();
+cursors2 = this.input.keyboard.addKeys({
     up: Phaser.Input.Keyboard.KeyCodes.W,
     down: Phaser.Input.Keyboard.KeyCodes.S,
     left: Phaser.Input.Keyboard.KeyCodes.A,
     right: Phaser.Input.Keyboard.KeyCodes.D
   });
-this.player1 = new Player(this, 100, 500, cursors1, 'player1');
-this.player2 = new Player(this, 1300, 500, cursors2, 'player2');
-this.ball = new Ball(this, 670, 500, 'ball');
-this.leftGoal = new Goal(this, -30, 400, 100, 500, 'player1');
-this.rightGoal = new Goal(this, 1400, 400, 100, 500, 'player2');
-var sensors = this.matter.world.nextCategory();
-this.ball.setCollisionCategory(sensors);
-this.leftGoal.setCollidesWith([sensors]);
-this.rightGoal.setCollidesWith([sensors]);
-this.matter.world.on('collisionstart', function (event) {
-    var pairs = event.pairs;
-    for (var i = 0; i < pairs.length; i++)
+player1 = new Player(this, 100, 500, cursors1, 'player1');
+player2 = new Player(this, 1300, 500, cursors2, 'player2');
+ball = new Ball(this, 670, 500, 'ball');
+leftGoal = new Hitbox(this, -30, 400, 100, 500, 'lg');
+rightGoal = new Hitbox(this, 1400, 400, 100, 500, 'rg');
+scoreboard = new Scoreboard(this);
+sensors = this.matter.world.nextCategory();
+ball.setCollisionCategory(sensors);
+leftGoal.setCollidesWith([sensors]);
+rightGoal.setCollidesWith([sensors]);
+scoreboard.showScore();
+this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {      
+    if (bodyA.isSensor)
+    {       
+        ball.setPosition(700,0);
+        if(bodyA.label === 'lg') scoreboard.rightScore++;
+        else scoreboard.leftScore++;
+        scoreboard.showScore();
+    }
+    else if (bodyB.isSensor)
     {
-        var bodyA = pairs[i].bodyA;
-        var bodyB = pairs[i].bodyB;
-
-        if (pairs[i].isSensor)
-        {            
-            if (bodyA.isSensor)
-            {
-                bodyB.gameObject.setPosition(500,0);
-            }
-            else if (bodyB.isSensor)
-            {
-                bodyA.gameObject.setPosition(500,0);
-            }
-        }
+        ball.setPosition(700,0);
+        if(bodyB.label === 'lg') scoreboard.leftScore++; 
+        else scoreboard.rightScore++;
+        scoreboard.showScore();
     }
 });
 }
 
 update()
 { 
-    this.player1.preUpdate();
-    this.player2.preUpdate();
-    this.ball.preUpdate();
+    player1.preUpdate();
+    player2.preUpdate();
 }
 };
 
@@ -83,6 +80,17 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+var bg;
+var scoreboard;
+var ball;
+var player1;
+var player2;
+var leftGoal;
+var rightGoal;
+var sensors;
+var cursors1;
+var cursors2;
 import {Ball} from './ball.js'
 import {Player} from './player.js'
-import {Goal} from './goal.js'
+import {Hitbox} from './hitbox'
+import {Scoreboard} from './scoreboard.js'
