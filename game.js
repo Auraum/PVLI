@@ -30,9 +30,11 @@ this.cursors1 = this.input.keyboard.addKeys({
     left: Phaser.Input.Keyboard.KeyCodes.A,
     right: Phaser.Input.Keyboard.KeyCodes.D
   });
+this.b = this.input.keyboard.addKey('B');
+this.b1 = this.input.keyboard.addKey('NUMPAD_ONE');
 this.sensors = this.matter.world.nextCategory();
-this.player1 = new Player(this, 100, 500, this.cursors1, 'player1', this.sensors);
-this.player2 = new Player(this, 1300, 500, this.cursors2, 'player2', this.sensors);
+this.player1 = new Player(this, 100, 500, this.cursors1, this.b, 'player1', this.sensors);
+this.player2 = new Player(this, 1300, 500, this.cursors2, this.b1, 'player2', this.sensors);
 this.ball = new Ball(this, 670, 0, 'ball');
 this.leftGoal = new Hitbox(this, -30, 400, 100, 500, 'lg', this.sensors);
 this.rightGoal = new Hitbox(this, 1400, 400, 100, 500, 'rg', this.sensors);
@@ -44,7 +46,7 @@ this.matter.world.on('collisionstart',  (event, bodyA, bodyB) => {
     if (bodyA.isSensor)
     {       
         if(bodyA.label === 'attack') {
-            this.ball.applyForces(0.5,-0.5);
+            this.ball.applyForces(Phaser.Math.Between(-1, 1),Phaser.Math.Between(-1, 1));
             bodyA.destroy();
         }
         else{
@@ -78,7 +80,7 @@ var config = {
         matter: {
             gravity: {
               x : 0,
-              y : 2
+              y : 3
             },
             debug : true
         }

@@ -1,6 +1,6 @@
 import {Hitbox} from './hitbox.js'
 export class Player extends Phaser.Physics.Matter.Sprite{
-  constructor(scene, x, y, scenecursors, sprite, sensors){
+  constructor(scene, x, y, scenecursors, b, sprite, sensors){
     super(scene.matter.world, x, y, sprite);
     scene.add.existing(this);
     this.setScale(.15);
@@ -10,6 +10,7 @@ export class Player extends Phaser.Physics.Matter.Sprite{
     this.originX = x;
     this.originY = y;
     this.sensors = sensors;
+    this.b = b;
   }
   reset(){
     this.setVelocityX(0);
@@ -21,8 +22,7 @@ export class Player extends Phaser.Physics.Matter.Sprite{
       this.applyForce({x:0,y:-0.05});
     }
     else if (this.cursors.down.isDown) {
-      this.applyForce({x:0,y:0.05});
-      var attack = new Hitbox(this.scene, this.x + 100, this.y, 100, 100, 'attack', this.sensors);
+      this.applyForce({x:0,y:0.05});      
     }
     if (this.cursors.left.isDown) {
       this.setVelocityX(-5);
@@ -30,5 +30,9 @@ export class Player extends Phaser.Physics.Matter.Sprite{
     else if (this.cursors.right.isDown) {
       this.setVelocityX(5);      
     }	
+
+    if(this.b.isDown){
+      var attack = new Hitbox(this.scene, this.x + Phaser.Math.Between(-100, 100), this.y + Phaser.Math.Between(-100, 100), 100, 100, 'attack', this.sensors);
+    }
   }
 }

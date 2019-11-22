@@ -10,6 +10,6 @@ export class Scoreboard{
         });    
     }
     showScore() {
-        this.text.setText( this.rightScore + " - " + this.leftScore);
+        this.text.setText(this.leftScore  + " - " + this.rightScore);
     }
 }
