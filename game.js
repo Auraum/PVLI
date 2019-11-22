@@ -1,3 +1,8 @@
+import {Ball} from './ball.js'
+import {Player} from './player.js'
+import {Hitbox} from './hitbox.js'
+import {Scoreboard} from './scoreboard.js'
+
 class Match extends Phaser.Scene{
 
     constructor ()
@@ -15,47 +20,51 @@ this.load.image('player2', 'sprites/player2.jpg');
 
 create()
 {
-bg = this.add.image(670,150,'bg');
-bg.setScale(1.4);
+this.bg = this.add.image(670,150,'bg');
+this.bg.setScale(1.4);
 this.matter.world.setBounds(0, 0, config.width, config.height);
-cursors1 = this.input.keyboard.createCursorKeys();
-cursors2 = this.input.keyboard.addKeys({
+this.cursors2 = this.input.keyboard.createCursorKeys();
+this.cursors1 = this.input.keyboard.addKeys({
     up: Phaser.Input.Keyboard.KeyCodes.W,
     down: Phaser.Input.Keyboard.KeyCodes.S,
     left: Phaser.Input.Keyboard.KeyCodes.A,
     right: Phaser.Input.Keyboard.KeyCodes.D
   });
-sensors = this.matter.world.nextCategory();
-player1 = new Player(this, 100, 500, cursors1, 'player1', sensors);
-player2 = new Player(this, 1300, 500, cursors2, 'player2', sensors);
-ball = new Ball(this, 670, 500, 'ball');
-leftGoal = new Hitbox(this, -30, 400, 100, 500, 'lg', sensors);
-rightGoal = new Hitbox(this, 1400, 400, 100, 500, 'rg', sensors);
-scoreboard = new Scoreboard(this);
-ball.setCollisionCategory(sensors);
-scoreboard.showScore();
-this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {      
+this.sensors = this.matter.world.nextCategory();
+this.player1 = new Player(this, 100, 500, this.cursors1, 'player1', this.sensors);
+this.player2 = new Player(this, 1300, 500, this.cursors2, 'player2', this.sensors);
+this.ball = new Ball(this, 670, 0, 'ball');
+this.leftGoal = new Hitbox(this, -30, 400, 100, 500, 'lg', this.sensors);
+this.rightGoal = new Hitbox(this, 1400, 400, 100, 500, 'rg', this.sensors);
+this.scoreboard = new Scoreboard(this);
+this.ball.setCollisionCategory(this.sensors);
+this.scoreboard.showScore();
+this.matter.world.on('collisionstart',  (event, bodyA, bodyB) => {  
+    if (!bodyA.isSensor && bodyB.isSensor) bodyA = bodyB;    
     if (bodyA.isSensor)
     {       
-        ball.setPosition(700,0);
-        if(bodyA.label === 'lg') scoreboard.rightScore++;
-        else scoreboard.leftScore++;
-        scoreboard.showScore();
-    }
-    else if (bodyB.isSensor)
-    {
-        ball.setPosition(700,0);
-        if(bodyB.label === 'lg') scoreboard.leftScore++; 
-        else scoreboard.rightScore++;
-        scoreboard.showScore();
+        if(bodyA.label === 'attack') {
+            this.ball.applyForces(0.5,-0.5);
+            bodyA.destroy();
+        }
+        else{
+        this.ball.reset();        
+        this.player1.reset();
+        this.player2.reset();         
+        if(bodyA.label === 'lg') {
+            this.scoreboard.rightScore++;           
+        }
+        else {           
+            this.scoreboard.leftScore++;
+        }
+        this.scoreboard.showScore();
+        }
     }
 });
 }
 
 update()
 { 
-    player1.preUpdate();
-    player2.preUpdate();
 }
 };
 
@@ -78,17 +87,3 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
-var bg;
-var scoreboard;
-var ball;
-var player1;
-var player2;
-var leftGoal;
-var rightGoal;
-var sensors;
-var cursors1;
-var cursors2;
-import {Ball} from './ball.js'
-import {Player} from './player.js'
-import {Hitbox} from './hitbox.js'
-import {Scoreboard} from './scoreboard.js'
