@@ -1,5 +1,5 @@
-export class Scoreboard{
-    constructor(scene){
+export class Scoreboard {
+    constructor(scene) {
         this.rightScore = 0;
         this.leftScore = 0;
         this.scene = scene;
@@ -7,9 +7,9 @@ export class Scoreboard{
             font: "100px Arial",
             fill: "#ff0044",
             align: "center"
-        });    
+        });
     }
     showScore() {
-        this.text.setText(this.leftScore  + " - " + this.rightScore);
+        this.text.setText(this.leftScore + " - " + this.rightScore);
     }
 }

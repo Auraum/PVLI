@@ -3,12 +3,12 @@ export class Ball extends Phaser.Physics.Matter.Sprite {
 		super(scene.matter.world, x, y, sprite);
 		scene.add.existing(this);
 		this.setScale(.25);
-		this.setBounce(2);
 		this.setBody({
 		type: 'circle',
         width: 75,
         height: 75
 		})
+		this.setBounce(1);
 		this.originX = x;
 		this.originY = y;
 		this.forceX = 0;
@@ -24,7 +24,7 @@ export class Ball extends Phaser.Physics.Matter.Sprite {
 		this.forceY += y;
 	}
 	preUpdate(){
-	if(this.forceX !=0 && this.forceY !=0 ) this.applyForce({x:this.forceX,y:this.forceY});
+	if(this.forceX !=0 || this.forceY !=0 ) this.applyForce({x:this.forceX,y:this.forceY});
 	this.forceX =0;
 	this.forceY =0;
 	}	
