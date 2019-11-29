@@ -1,6 +1,6 @@
 import { Hitbox } from './hitbox.js'
 export class Player extends Phaser.Physics.Matter.Sprite {
-  constructor(scene, x, y, scenecursors, weak, strong, jump, sprite, sensors) {
+  constructor(scene, x, y, scenecursors, weak, strong, jump, run, sprite, sensors) {
     super(scene.matter.world, x, y, sprite);
     scene.add.existing(this);
     this.setScale(.15);
@@ -13,6 +13,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
     this.weak = weak;
     this.strong = strong;
     this.jump = jump;
+    this.run = run;
     this.lag = 0;
   }
   reset() {
@@ -22,17 +23,20 @@ export class Player extends Phaser.Physics.Matter.Sprite {
   }
   preUpdate() {
     if (this.jump.isDown) {
-      this.applyForce({ x: 0, y: -0.05 });
+      if(this.y + 50 - this.scene.height > 0) this.applyForce({ x: 0, y: -0.5 });
     }
     else if (this.cursors.down.isDown) {
       this.applyForce({ x: 0, y: 0.05 });
     }
     if (this.cursors.left.isDown) {
-      this.setVelocityX(-5);
+      if(this.run.isDown) this.setVelocityX(-10);
+      else this.setVelocityX(-5);
     }
     else if (this.cursors.right.isDown) {
-      this.setVelocityX(5);
+      if(this.run.isDown) this.setVelocityX(10);
+      else this.setVelocityX(5);
     }
+
 
     if (this.lag > 0) this.lag--;   
 

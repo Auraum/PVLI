@@ -8,7 +8,7 @@ export class Ball extends Phaser.Physics.Matter.Sprite {
         width: 75,
         height: 75
 		})
-		this.setBounce(1);
+		this.setBounce(0.8);
 		this.originX = x;
 		this.originY = y;
 		this.forceX = 0;
