@@ -2,6 +2,7 @@ import { Ball } from './ball.js'
 import { Player } from './player.js'
 import { Hitbox } from './hitbox.js'
 import { Scoreboard } from './scoreboard.js'
+import { Menu } from './menu.js'
 
 class Match extends Phaser.Scene {
 
@@ -42,9 +43,9 @@ class Match extends Phaser.Scene {
         this.ball = new Ball(this, 670, 0, 'ball');
         this.leftGoal = new Hitbox(this, 70, 400, 100, 500, 'lg', this.sensors);
         this.rightGoal = new Hitbox(this, 1270, 400, 100, 500, 'rg', this.sensors);
-        this.leftPost = this.matter.add.sprite(1270,100,'player2').setScale(0.15).setStatic(true);
-        this.rightPost = this.matter.add.sprite(70,100,'player1').setScale(0.15).setStatic(true);
-        this.scoreboard = new Scoreboard(this, 180);
+        this.leftPost = this.matter.add.sprite(1270, 100, 'player2').setScale(0.15).setStatic(true);
+        this.rightPost = this.matter.add.sprite(70, 100, 'player1').setScale(0.15).setStatic(true);
+        this.scoreboard = new Scoreboard(this, 1);
         this.ball.setCollisionCategory(this.sensors);
         this.scoreboard.showScore();
         this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
@@ -55,9 +56,12 @@ class Match extends Phaser.Scene {
                     bodyA.destroy();
                 }
                 else {
-                    this.ball.reset();
-                    this.player1.reset();
-                    this.player2.reset();
+                    this.ball.setBounce(0);
+                    this.timer = this.time.delayedCall(500, () => {
+                        this.ball.reset();
+                        this.player1.reset();
+                        this.player2.reset();
+                    }, [], this);
                     if (bodyA.label === 'lg') this.scoreboard.rightScore++;
                     else this.scoreboard.leftScore++;
                     this.scoreboard.showScore();
@@ -86,7 +90,7 @@ var config = {
             debug: true
         }
     },
-    scene: Match
+    scene: [Match, Menu]
 };
 
 var game = new Phaser.Game(config);

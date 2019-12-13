@@ -1,5 +1,6 @@
-import { Hitbox } from './hitbox.js'
-export class Player extends Phaser.Physics.Matter.Sprite {
+import Hitbox from './hitbox.js'
+
+export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, scenecursors, weak, strong, jump, run, sprite, sensors) {
     super(scene.matter.world, x, y, sprite);
     scene.add.existing(this);

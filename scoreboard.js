@@ -1,4 +1,4 @@
-export class Scoreboard {
+export default class Scoreboard {
     constructor(scene, time) {
         this.rightScore = 0;
         this.leftScore = 0;
@@ -16,8 +16,6 @@ export class Scoreboard {
         });
         this.time = time;
         this.timer = scene.time.delayedCall(time * 1000, () => {
-            this.rightScore = 100;
-            this.showScore();
         }, [], this);
     }
 
