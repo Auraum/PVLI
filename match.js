@@ -1,6 +1,6 @@
 import Ball from './ball.js'
 import Player from './player.js'
-import Hitbox from './hitbox.js'
+import Goal from './goal.js'
 import Scoreboard from './scoreboard.js'
 
 export default class Match extends Phaser.Scene {
@@ -14,6 +14,9 @@ export default class Match extends Phaser.Scene {
         this.load.image('ball', 'sprites/ball.png');
         this.load.image('player1', 'sprites/player1.jpg');
         this.load.image('player2', 'sprites/player2.jpg');
+        this.load.image('leftgoal', 'sprites/leftgoal.png');
+        this.load.image('rightgoal', 'sprites/rightgoal.png');
+        this.load.image('attacksprite', 'sprites/normalattack1.png');
     }
 
     create() {
@@ -40,10 +43,10 @@ export default class Match extends Phaser.Scene {
         this.player1 = new Player(this, 100, 500, this.cursors1, this.weak, this.strong, this.jump, this.run, 'player1', this.sensors);
         this.player2 = new Player(this, 1240, 500, this.cursors2, this.weak2, this.strong2, this.jump2, this.run2, 'player2', this.sensors);
         this.ball = new Ball(this, 670, 0, 'ball');
-        this.leftGoal = new Hitbox(this, 70, 400, 100, 500, 'lg', this.sensors);
-        this.rightGoal = new Hitbox(this, 1270, 400, 100, 500, 'rg', this.sensors);
-        this.leftPost = this.matter.add.sprite(1270, 100, 'player2').setScale(0.15).setStatic(true);
-        this.rightPost = this.matter.add.sprite(70, 100, 'player1').setScale(0.15).setStatic(true);
+        this.leftGoal = new Goal(this, 0, 300, 'leftgoal', 'lg', this.sensors);
+        this.rightGoal = new Goal(this, 1350, 300, 'rightgoal', 'rg', this.sensors);
+        this.leftPost = this.matter.add.sprite(1270, 100, 'player2').setScale(0.2, 0.05).setStatic(true).setVisible(false);
+        this.rightPost = this.matter.add.sprite(70, 100, 'player1').setScale(0.2, 0.05).setStatic(true).setVisible(false);
         this.scoreboard = new Scoreboard(this, 180);
         this.ball.setCollisionCategory(this.sensors);
         this.scoreboard.showScore();

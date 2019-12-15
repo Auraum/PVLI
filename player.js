@@ -1,4 +1,4 @@
-import Hitbox from './hitbox.js'
+import Attack from './attack.js'
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, scenecursors, weak, strong, jump, run, sprite, sensors) {
@@ -64,10 +64,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
           forceY -= force;
         }
         else if (this.cursors.down.isDown) {
-          forceX = 0; 
-          forceY -= force;
+          //forceX = 0; 
+          y += 100;
+          forceY += force;
         }
-        this.attack = new Hitbox(this.scene, x, y, 100, 100, 'attack', this.sensors, forceX, forceY, 10);
+        var angle = 0;
+        // if(forceX = 0) angle = Math.asin(forceY) * 180;
+        // else if (forceY = 0) angle = Math.acos(forceX) * 180;
+        // else angle = Math.atan(forceY/forceX) * 180;
+        this.attack = new Attack(this.scene, x, y, 100, 100, this.sensors, forceX, forceY, 10, angle);
         this.lag = lag;
       }
     }  
