@@ -169,6 +169,40 @@
   <script src="assets/parallax/jarallax.min.js"></script>
   <script src="assets/theme/js/script.js"></script>
   
+  <section class="script" id="image3-b">
+    <div class="image-block" style=" padding-top: 70px; padding-bottom: 70px; background-color: #c4cfa9;" id="gameDiv">
+      <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.min.js"></script>
+      <script type="module">
+        import Menu from './menu.js'
+        import Match from './match.js'
+        import End from './end.js'
+
+        let config = {
+          type: Phaser.AUTO,
+          width: 1350,
+          height: 500,
+          parent: 'gameDiv',
+          backgroundColor: '#000000',
+          physics: {
+            default: 'matter',
+            matter: {
+              gravity: {
+                x: 0,
+                y: 2
+              },
+              debug: false
+            }
+          },
+          scene: [Menu, Match, End],
+        };
+
+        let game = new Phaser.Game(config);
+        game.scene.start('Menu');
+
+      </script>
+
+    </div>
+  </section>
   
 </body>
 </html>
