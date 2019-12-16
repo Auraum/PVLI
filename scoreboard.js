@@ -20,7 +20,7 @@ export default class Scoreboard {
         this.goals = goals;
         if (this.time > 0) this.timer = scene.time.delayedCall(time * 1000, () => {
             scene.scene.start('End', {
-                loaded: true, timelimit: this.time, minutes: Math.floor(this.time / 60), 
+                loaded: true, timelimit: this.time, minutes: Math.floor(this.time / 60),
                 seconds: Math.floor(this.time % 60), goals: this.goals,
                 rightScore: this.rightScore, leftScore: this.leftScore
             });
@@ -41,12 +41,12 @@ export default class Scoreboard {
                 });
             }
         }
-        this.minutes = Math.floor(this.timer.getElapsedSeconds() / 60);
-        this.seconds = Math.floor(this.timer.getElapsedSeconds() % 60);
+        this.seconds = Math.floor(this.timer.getElapsedSeconds());
         if (this.time > 0) {
-            this.minutes = Math.floor((this.time / 60) - this.minutes);
-            this.seconds = Math.floor((this.time % 60) - this.seconds);
+            this.seconds = this.time - this.seconds;
         }
+        this.minutes = Math.floor(this.seconds / 60);
+        this.seconds = this.seconds % 60;
         if (this.seconds < 10) this.seconds = "0" + this.seconds;
         this.timerText.setText(this.minutes + ":" + this.seconds);
     }

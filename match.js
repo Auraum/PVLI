@@ -6,8 +6,8 @@ import Scoreboard from './scoreboard.js'
 export default class Match extends Phaser.Scene {
 
     constructor() {
-        super({ key: 'Match', active: true }); 
-        this.loaded = false;      
+        super({ key: 'Match', active: true });
+        this.loaded = false;
     }
 
     init(data) {

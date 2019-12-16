@@ -15,15 +15,21 @@ export default class End extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image('RematchButton', 'sprites/rematchbutton.png');
+        this.load.image('MainMenuButton', 'sprites/mainmenubutton.png');
+        this.load.image('Textbox', 'sprites/textbox.png');
     }
 
     create() {
         if (!this.loaded) this.scene.start('Menu');
         this.bg = this.add.image(670, 150, 'bg');
         this.bg.setScale(1.4);
-        this.endText = this.add.text(340, 20, "", {
-            font: "bold 50px Arial Black",
-            fill: "#00ffff",
+        this.textbox = this.add.image(680, 115, 'Textbox');
+        this.textbox.setScale(0.75, 0.5);
+        this.textbox.setAngle(2);
+        this.endText = this.add.text(360, 30, "", {
+            font: "bold 45px Arial Black",
+            fill: "#000000",
             align: "center",
         });
         if (this.rightScore == this.leftScore) {
@@ -38,16 +44,16 @@ export default class End extends Phaser.Scene {
                 this.leftScore + " - " + this.rightScore + "\nand the match lasted " +
                 this.minutes + ":" + this.seconds);
         }
-        this.RematchButton = this.add.image(680, 300, 'MenuButton');
+        this.RematchButton = this.add.image(680, 300, 'RematchButton');
         this.RematchButton.setScale(0.5);
         this.RematchButton.setInteractive();
         this.RematchButton.on('pointerdown', () => {
             this.scene.start('Match', { loaded: true, timelimit: this.timelimit, goals: this.goals });
         });
-        this.MenuButton = this.add.image(680, 400, 'MenuButton');
-        this.MenuButton.setScale(0.5);
-        this.MenuButton.setInteractive();
-        this.MenuButton.on('pointerdown', () => {
+        this.MainMenuButton = this.add.image(680, 400, 'MainMenuButton');
+        this.MainMenuButton.setScale(0.5);
+        this.MainMenuButton.setInteractive();
+        this.MainMenuButton.on('pointerdown', () => {
             this.scene.start('Menu');
         });
     }
