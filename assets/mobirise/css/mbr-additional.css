@@ -710,6 +710,27 @@ iframe.lazy-placeholder,
 section.lazy-placeholder:after {
   opacity: 0.3;
 }
+.cid-rKMf92Ucim {
+  padding-top: 90px;
+  padding-bottom: 90px;
+  background-image: url("../../../assets/images/xxxx-spo-ocr-l-soccer-generic-stock-1-2000x1126.jpeg");
+}
+.cid-rKMf92Ucim .mbr-figure {
+  margin: 0 auto;
+  width: 100%;
+  display: -webkit-flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+.cid-rKMf92Ucim .mbr-figure img {
+  height: 100%;
+  margin: 0 auto;
+}
+@media (max-width: 991px) {
+  .cid-rKMf92Ucim .mbr-figure img {
+    width: 100% !important;
+  }
+}
 .cid-rKKso9NYGM {
   padding-top: 90px;
   padding-bottom: 90px;
@@ -721,6 +742,7 @@ section.lazy-placeholder:after {
 .cid-rKKso9NYGM .mbr-text,
 .cid-rKKso9NYGM .mbr-section-btn {
   text-align: center;
+  color: #232323;
 }
 .cid-rKKrK7LeDS {
   padding-top: 90px;
