@@ -745,8 +745,8 @@ section.lazy-placeholder:after {
   color: #232323;
 }
 .cid-rKKrK7LeDS {
-  padding-top: 90px;
-  padding-bottom: 90px;
+  padding-top: 60px;
+  padding-bottom: 60px;
   background-color: #f9f295;
 }
 .cid-rKKrK7LeDS h4 {
@@ -763,6 +763,9 @@ section.lazy-placeholder:after {
 .cid-rKKrK7LeDS .card-img span {
   font-size: 72px;
   color: #707070;
+}
+.cid-rKKrK7LeDS P {
+  color: #4f4943;
 }
 .cid-rKKro3ZRon {
   padding-top: 90px;
