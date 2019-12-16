@@ -6,7 +6,16 @@ import Scoreboard from './scoreboard.js'
 export default class Match extends Phaser.Scene {
 
     constructor() {
-        super({ key: 'Match', active: true });
+        super({ key: 'Match', active: true }); 
+        this.loaded = false;      
+    }
+
+    init(data) {
+        this.loaded = data.loaded;
+        this.timelimit = data.time;
+        this.goals = data.goals;
+        this.player1type = data.player1type;
+        this.player2type = data.player2type;
     }
 
     preload() {
@@ -16,10 +25,11 @@ export default class Match extends Phaser.Scene {
         this.load.image('player2', 'sprites/player2.jpg');
         this.load.image('leftgoal', 'sprites/leftgoal.png');
         this.load.image('rightgoal', 'sprites/rightgoal.png');
-        this.load.image('attacksprite', 'sprites/normalattack1.png');
+        this.load.image('attacksprite', 'sprites/attack.png');
     }
 
     create() {
+        if (!this.loaded) this.scene.start('Menu');
         this.bg = this.add.image(670, 150, 'bg');
         this.bg.setScale(1.4);
         this.matter.world.setBounds(0, 0, 1350, 500);
@@ -35,19 +45,19 @@ export default class Match extends Phaser.Scene {
         this.weak2 = this.input.keyboard.addKey('NUMPAD_ONE');
         this.strong = this.input.keyboard.addKey('N');
         this.strong2 = this.input.keyboard.addKey('NUMPAD_TWO');
-        this.jump = this.input.keyboard.addKey('SPACE');
+        this.jump = this.input.keyboard.addKey('J');
         this.jump2 = this.input.keyboard.addKey('NUMPAD_THREE');
         this.run = this.input.keyboard.addKey('M');
         this.run2 = this.input.keyboard.addKey('NUMPAD_FOUR');
         this.sensors = this.matter.world.nextCategory();
         this.player1 = new Player(this, 100, 500, this.cursors1, this.weak, this.strong, this.jump, this.run, 'player1', this.sensors);
         this.player2 = new Player(this, 1240, 500, this.cursors2, this.weak2, this.strong2, this.jump2, this.run2, 'player2', this.sensors);
-        this.ball = new Ball(this, 670, 0, 'ball');
+        this.ball = new Ball(this, 680, 0, 'ball');
         this.leftGoal = new Goal(this, 0, 300, 'leftgoal', 'lg', this.sensors);
         this.rightGoal = new Goal(this, 1350, 300, 'rightgoal', 'rg', this.sensors);
         this.leftPost = this.matter.add.sprite(1270, 100, 'player2').setScale(0.2, 0.05).setStatic(true).setVisible(false);
         this.rightPost = this.matter.add.sprite(70, 100, 'player1').setScale(0.2, 0.05).setStatic(true).setVisible(false);
-        this.scoreboard = new Scoreboard(this, 180);
+        this.scoreboard = new Scoreboard(this, this.timelimit, this.goals);
         this.ball.setCollisionCategory(this.sensors);
         this.scoreboard.showScore();
         this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {

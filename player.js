@@ -24,57 +24,66 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
   }
   preUpdate() {
     if (this.jump.isDown) {
-      if(this.y + 50 - this.scene.height > 0) this.applyForce({ x: 0, y: -0.5 });
+      if (this.y + 50 > this.scene.height) this.applyForce({ x: 0, y: -0.3 });
     }
     else if (this.cursors.down.isDown) {
       this.applyForce({ x: 0, y: 0.05 });
     }
     if (this.cursors.left.isDown) {
-      if(this.run.isDown) this.setVelocityX(-10);
+      if (this.run.isDown) this.setVelocityX(-10);
       else this.setVelocityX(-5);
     }
     else if (this.cursors.right.isDown) {
-      if(this.run.isDown) this.setVelocityX(10);
+      if (this.run.isDown) this.setVelocityX(10);
       else this.setVelocityX(5);
     }
 
-
-    if (this.lag > 0) this.lag--;   
+    if (this.lag > 0) this.lag--;
 
     if (this.weak.isDown || this.strong.isDown) {
       if (this.lag == 0) {
-        var force;
-        var lag;
+        let force;
+        let lag;
         if (this.weak.isDown) force = 0.25, lag = 25;
         if (this.strong.isDown) force = 0.5, lag = 50;
-        var x = this.x;
-        var y = this.y;
-        var forceX = 0;
-        var forceY = 0;
+        let x = this.x;
+        let y = this.y;
+        let forceX = 0;
+        let forceY = 0;
+        let flipX = 1;
+        let angle;
+        let distance = 100;
         if (this.cursors.left.isDown) {
-          x -= 100;
+          x -= distance;
           forceX -= force;
         }
         else if (this.cursors.right.isDown) {
-          x += 100;
+          x += distance;
           forceX += force;
         }
         if (this.cursors.up.isDown) {
-          y -= 100;
+          y -= distance;
           forceY -= force;
         }
         else if (this.cursors.down.isDown) {
-          //forceX = 0; 
-          y += 100;
-          forceY += force;
+          if (this.y + 50 > this.scene.height) {
+            forceX = 0;
+            forceY -= force;
+          }
+          else {
+            y += distance;
+            forceY += force;
+          }
         }
-        var angle = 0;
-        // if(forceX = 0) angle = Math.asin(forceY) * 180;
-        // else if (forceY = 0) angle = Math.acos(forceX) * 180;
-        // else angle = Math.atan(forceY/forceX) * 180;
-        this.attack = new Attack(this.scene, x, y, 100, 100, this.sensors, forceX, forceY, 10, angle);
+        if (forceX == 0 && forceY == -force) angle = 0;
+        else if (forceX == 0 && forceY == force) angle = 180;
+        else if (forceY == 0) angle = 90;
+        else if (forceY == force) angle = 135;
+        else if (forceY == -force) angle = 45;
+        if (x < this.x) angle = -angle;
+        if (x != this.x || y != this.y) this.attack = new Attack(this.scene, x, y, 100, 100, this.sensors, forceX, forceY, 10, flipX, angle);
         this.lag = lag;
       }
-    }  
+    }
   }
 }
