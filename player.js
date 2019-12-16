@@ -30,7 +30,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       if (this.y + 50 > this.scene.height) this.applyForce({ x: 0, y: -0.3 });
     }
     else if (this.cursors.down.isDown) {
-      this.applyForce({ x: 0, y: 0.005 });
+      this.applyForce({ x: 0, y: 0.03 });
     }
     if (this.cursors.left.isDown) {
       if (this.run.isDown) this.setVelocityX(-10);
@@ -48,13 +48,16 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     if (this.special.isDown && this.lag2 == 0) {
       switch (this.type.substr(0, 1)) {
         case "a":
-          this.applyForce({ x: 0, y: 1.5 });
+          this.applyForce({ x: 0, y: 2 });
+          this.lag2 += 100;
           break;
         case "h":
           this.reset();
+          this.lag2 += 10;
           break;
         case "d":
-          this.applyForce({ x: 0, y: -1.5 });
+          this.applyForce({ x: 0, y: -1 });
+          this.lag2 += 100;
           break;
         case "u":
           if(this.cursors.left.isDown && this.x > 200) {
@@ -63,9 +66,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
           else if(this.cursors.right.isDown && this.x < 1150) {
             this.setPosition(this.x + 200, this.y);
           }
+          this.lag2 += 50;
           break;
       }
-      this.lag2 += 50;
     }
 
     else if (this.weak.isDown || this.strong.isDown) {
