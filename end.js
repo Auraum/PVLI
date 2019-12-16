@@ -12,6 +12,8 @@ export default class End extends Phaser.Scene {
         this.seconds = data.seconds;
         this.rightScore = data.rightScore;
         this.leftScore = data.leftScore;
+        this.player1type = data.player1type;
+        this.player2type = data.player2type;
     }
 
     preload() {
@@ -48,7 +50,10 @@ export default class End extends Phaser.Scene {
         this.RematchButton.setScale(0.5);
         this.RematchButton.setInteractive();
         this.RematchButton.on('pointerdown', () => {
-            this.scene.start('Match', { loaded: true, timelimit: this.timelimit, goals: this.goals });
+            this.scene.start('Match', {
+                loaded: true, timelimit: this.timelimit, goals: this.goals,
+                player1type: this.player1type, player2type: this.player2type
+            });
         });
         this.MainMenuButton = this.add.image(680, 400, 'MainMenuButton');
         this.MainMenuButton.setScale(0.5);
@@ -56,8 +61,15 @@ export default class End extends Phaser.Scene {
         this.MainMenuButton.on('pointerdown', () => {
             this.scene.start('Menu');
         });
+        this.player1 = this.add.image(400, 350, this.player1type);
+        this.player1.setScale(0.25);
+        this.player2 = this.add.image(950, 350, this.player2type);
+        this.player2.setScale(0.25);
+
     }
 
     update() {
+        this.player1.angle++;
+        this.player2.angle--;
     }
 };

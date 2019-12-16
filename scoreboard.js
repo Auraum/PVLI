@@ -1,5 +1,5 @@
 export default class Scoreboard {
-    constructor(scene, time, goals) {
+    constructor(scene, time, goals, player1type, player2type) {
         this.rightScore = 0;
         this.leftScore = 0;
         this.scene = scene;
@@ -18,11 +18,14 @@ export default class Scoreboard {
         this.timerText.alpha = 0.7;
         this.time = time;
         this.goals = goals;
+        this.player1type = player1type;
+        this.player2type = player2type;
         if (this.time > 0) this.timer = scene.time.delayedCall(time * 1000, () => {
             scene.scene.start('End', {
                 loaded: true, timelimit: this.time, minutes: Math.floor(this.time / 60),
                 seconds: Math.floor(this.time % 60), goals: this.goals,
-                rightScore: this.rightScore, leftScore: this.leftScore
+                rightScore: this.rightScore, leftScore: this.leftScore,
+                player1type: this.player1type, player2type:this.player2type
             });
         }, [], this);
         else this.timer = scene.time.delayedCall(1000000, () => { }, [], this);
@@ -37,7 +40,8 @@ export default class Scoreboard {
             if (this.rightScore == this.goals || this.leftScore == this.goals) {
                 this.scene.scene.start('End', {
                     loaded: true, timelimit: this.time, minutes: this.minutes, seconds: this.seconds, goals: this.goals,
-                    rightScore: this.rightScore, leftScore: this.leftScore
+                    rightScore: this.rightScore, leftScore: this.leftScore,
+                    player1type: this.player1type, player2type:this.player2type
                 });
             }
         }
