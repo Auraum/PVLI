@@ -71,7 +71,7 @@ export default class Menu extends Phaser.Scene {
         this.GoalsButton5.setScale(0.5);
         this.GoalsButton5.setInteractive();
         this.GoalsButton5.on('pointerdown', () => {
-            this.goals = 1;
+            this.goals = 5;
             this.choosePlayer1();
         });
         this.GoalsButton7 = this.add.image(680, 400, 'GoalsButton7');

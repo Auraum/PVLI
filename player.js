@@ -30,7 +30,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       if (this.y + 50 > this.scene.height) this.applyForce({ x: 0, y: -0.3 });
     }
     else if (this.cursors.down.isDown) {
-      this.applyForce({ x: 0, y: 0.05 });
+      this.applyForce({ x: 0, y: 0.005 });
     }
     if (this.cursors.left.isDown) {
       if (this.run.isDown) this.setVelocityX(-10);
