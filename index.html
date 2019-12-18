@@ -6,10 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="generator" content="Mobirise v4.11.6, mobirise.com">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-  <link rel="shortcut icon" href="assets/images/logo4.png" type="image/x-icon">
+  <link rel="shortcut icon" href="./sprites/ball.png" type="image/x-icon">
   <meta name="description" content="">
   
-  <title>Home</title>
+  <title>Super Smash Ball</title>
   <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
   <link rel="stylesheet" href="assets/web/assets/mobirise-icons-bold/mobirise-icons-bold.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -171,7 +171,7 @@
   
   <section class="script" id="image3-b">
     <div class="image-block" style=" padding-top: 70px; padding-bottom: 70px; background-color: #c4cfa9;" id="gameDiv">
-      <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.min.js"></script>
       <script type="module">
         import Menu from './menu.js'
         import Match from './match.js'
@@ -193,9 +193,9 @@
               debug: false
             }
           },
-          scene: [Menu, Match, End],
+          scene: [Match, Menu, End],
         };
-
+        
         let game = new Phaser.Game(config);
         game.scene.start('Menu');
 

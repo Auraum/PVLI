@@ -5,6 +5,8 @@ export default class Menu extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image('bg', 'sprites/background.png')
+        this.load.image('ball', 'sprites/ball.png');
         this.load.image('PlayButton', 'sprites/playbutton1.png');
         this.load.image('logo', 'sprites/logo.png');
         this.load.image('GoalsButton', 'sprites/goalsbutton.png');
@@ -23,9 +25,11 @@ export default class Menu extends Phaser.Scene {
         this.load.image('dead2', 'sprites/dead2.jpg')
         this.load.image('umm1', 'sprites/umm1.jpg')
         this.load.image('umm2', 'sprites/umm2.jpg')
+        this.load.audio('menumusic', 'music/menu.ogg');
     }
 
     create() {
+        this.sound.stopAll();
         this.goaled = false;
         this.part2 = false;
         this.bg = this.add.image(670, 150, 'bg');
@@ -37,6 +41,8 @@ export default class Menu extends Phaser.Scene {
         this.logo = this.add.image(680, 170, 'logo');
         this.logo.setScale(0.5);
         this.PlayButton.on('pointerdown', () => this.chooseRuleset());
+        this.PlayButton.on('pointerover', () => { this.PlayButton.setScale(0.55) });
+        this.PlayButton.on('pointerout', () => { this.PlayButton.setScale(0.5) });
         this.angry1 = this.add.image(400, 400, 'angry1').setVisible(false);
         this.happy1 = this.add.image(600, 400, 'happy1').setVisible(false);
         this.dead1 = this.add.image(800, 400, 'dead1').setVisible(false);
@@ -45,6 +51,9 @@ export default class Menu extends Phaser.Scene {
         this.happy2 = this.add.image(600, 400, 'happy2').setVisible(false);
         this.dead2 = this.add.image(800, 400, 'dead2').setVisible(false);
         this.umm2 = this.add.image(1000, 400, 'umm2').setVisible(false);
+        this.menumusic = this.sound.add('menumusic');
+        this.menumusic.play();
+        this.menumusic.setLoop(true);
     }
 
     chooseRuleset() {
@@ -167,6 +176,7 @@ export default class Menu extends Phaser.Scene {
         this.angry2.setInteractive();
         this.angry2.on('pointerdown', () => {
             this.player2 = 'angry2';
+            this.sound.stopAll();
             this.scene.start('Match', {
                 loaded: true, goals: this.goals, time: this.timelimit,
                 player1type: this.player1, player2type: this.player2
@@ -177,6 +187,7 @@ export default class Menu extends Phaser.Scene {
         this.happy2.setInteractive();
         this.happy2.on('pointerdown', () => {
             this.player2 = 'happy2';
+            this.sound.stopAll();
             this.scene.start('Match', {
                 loaded: true, goals: this.goals, time: this.timelimit,
                 player1type: this.player1, player2type: this.player2
@@ -187,6 +198,7 @@ export default class Menu extends Phaser.Scene {
         this.dead2.setInteractive();
         this.dead2.on('pointerdown', () => {
             this.player2 = 'dead2';
+            this.sound.stopAll();
             this.scene.start('Match', {
                 loaded: true, goals: this.goals, time: this.timelimit,
                 player1type: this.player1, player2type: this.player2
@@ -197,6 +209,7 @@ export default class Menu extends Phaser.Scene {
         this.umm2.setInteractive();
         this.umm2.on('pointerdown', () => {
             this.player2 = 'umm2';
+            this.sound.stopAll();
             this.scene.start('Match', {
                 loaded: true, goals: this.goals, time: this.timelimit,
                 player1type: this.player1, player2type: this.player2
@@ -206,13 +219,13 @@ export default class Menu extends Phaser.Scene {
 
     update() {
         this.ball.angle++;
-        if(!this.part2){
+        if (!this.part2) {
             this.umm1.angle++;
             this.angry1.angle += 2;
             this.dead1.angle -= 0.05;
             this.happy1.angle -= 4;
         }
-        else{
+        else {
             this.umm2.angle--;
             this.angry2.angle -= 2;
             this.dead2.angle += 0.05;

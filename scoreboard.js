@@ -37,7 +37,7 @@ export default class Scoreboard {
 
     preUpdate() {
         if (this.goals > 0) {
-            if (this.rightScore == this.goals || this.leftScore == this.goals) {
+            if (this.rightScore >= this.goals || this.leftScore >= this.goals) {
                 this.scene.scene.start('End', {
                     loaded: true, timelimit: this.time, minutes: this.minutes, seconds: this.seconds, goals: this.goals,
                     rightScore: this.rightScore, leftScore: this.leftScore,

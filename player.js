@@ -1,7 +1,7 @@
 import Attack from './attack.js'
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
-  constructor(scene, x, y, scenecursors, weak, strong, jump, run, special, sprite, sensors) {
+  constructor(scene, x, y, scenecursors, weak, strong, jump, special, sprite, sensors) {
     super(scene.matter.world, x, y, sprite);
     scene.add.existing(this);
     this.setScale(.15);
@@ -14,7 +14,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.weak = weak;
     this.strong = strong;
     this.jump = jump;
-    this.run = run;
     this.special = special;
     this.lag = 0;
     this.lag2 = 0;
@@ -26,6 +25,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.setPosition(this.originX, this.originY);
   }
   preUpdate() {
+		if(this.x > this.scene.length || this.y > this.scene.height || this.y < 0 || this.x < 0) this.reset();
     if (this.jump.isDown) {
       if (this.y + 50 > this.scene.height) this.applyForce({ x: 0, y: -0.3 });
     }
@@ -33,12 +33,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.applyForce({ x: 0, y: 0.03 });
     }
     if (this.cursors.left.isDown) {
-      if (this.run.isDown) this.setVelocityX(-10);
-      else this.setVelocityX(-5);
+      this.setVelocityX(-7.5);
     }
     else if (this.cursors.right.isDown) {
-      if (this.run.isDown) this.setVelocityX(10);
-      else this.setVelocityX(5);
+      this.setVelocityX(7.5);
     }
 
     if (this.lag > 0) this.lag--;
@@ -60,10 +58,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
           this.lag2 += 100;
           break;
         case "u":
-          if(this.cursors.left.isDown && this.x > 200) {
+          if (this.cursors.left.isDown && this.x > 200) {
             this.setPosition(this.x - 200, this.y);
           }
-          else if(this.cursors.right.isDown && this.x < 1150) {
+          else if (this.cursors.right.isDown && this.x < 1150) {
             this.setPosition(this.x + 200, this.y);
           }
           this.lag2 += 50;
@@ -75,8 +73,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       if (this.lag == 0) {
         let force;
         let lag;
-        if (this.weak.isDown) force = 0.25, lag = 25;
-        if (this.strong.isDown) force = 0.5, lag = 50;
+        let sprite;
+        if (this.weak.isDown) force = 0.25, lag = 50, sprite = 'weakattack';
+        if (this.strong.isDown) force = 0.5, lag = 100, sprite = 'strongattack';
         let x = this.x;
         let y = this.y;
         let forceX = 0;
@@ -112,7 +111,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         else if (forceY == force) angle = 135;
         else if (forceY == -force) angle = 45;
         if (x < this.x) angle = -angle;
-        if (x != this.x || y != this.y) this.attack = new Attack(this.scene, x, y, 100, 100, this.sensors, forceX, forceY, 10, flipX, angle);
+        if (x != this.x || y != this.y) this.attack = new Attack(this.scene, x, y, 100, 100, this.sensors, forceX, forceY, 10, flipX, angle, sprite);
         this.lag = lag;
       }
     }

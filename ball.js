@@ -25,6 +25,7 @@ export default class Ball extends Phaser.Physics.Matter.Sprite {
 		this.forceY += y;
 	}
 	preUpdate() {
+		if(this.x > this.scene.length || this.y > this.scene.height || this.y < 0 || this.x < 0) this.reset();
 		if (this.forceX != 0 || this.forceY != 0) this.applyForce({ x: this.forceX, y: this.forceY });
 		this.forceX = 0;
 		this.forceY = 0;
