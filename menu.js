@@ -19,22 +19,23 @@ export default class Menu extends Phaser.Scene {
         this.load.image('TimeButton1', 'sprites/timebutton1.png');
         this.load.image('TimeButton2', 'sprites/timebutton2.png');
         this.load.image('TimeButton3', 'sprites/timebutton3.png');
-        this.load.image('angry1', 'sprites/angry1.jpg')
-        this.load.image('angry2', 'sprites/angry2.jpg')
-        this.load.image('happy1', 'sprites/happy1.jpg')
-        this.load.image('happy2', 'sprites/happy2.jpg')
-        this.load.image('dead1', 'sprites/dead1.jpg')
-        this.load.image('dead2', 'sprites/dead2.jpg')
-        this.load.image('umm1', 'sprites/umm1.jpg')
-        this.load.image('umm2', 'sprites/umm2.jpg')
+        this.load.image('angry1', 'sprites/angry1.jpg');
+        this.load.image('angry2', 'sprites/angry2.jpg');
+        this.load.image('happy1', 'sprites/happy1.jpg');
+        this.load.image('happy2', 'sprites/happy2.jpg');
+        this.load.image('dead1', 'sprites/dead1.jpg');
+        this.load.image('dead2', 'sprites/dead2.jpg');
+        this.load.image('umm1', 'sprites/umm1.jpg');
+        this.load.image('umm2', 'sprites/umm2.jpg');
+        this.load.image('backbutton', 'sprites/backbutton.png');
         this.load.audio('menumusic', 'music/menu.ogg');
     }
 
     create() {
         this.sound.stopAll();
+        this.goaled = false;
         this.bg = this.add.image(670, 150, 'bg').setScale(1.4);
         this.PlayButton = new Button(this, 680, 400, 'PlayButton', 0.5, 0);
-        this.PlayButton.activate(() => this.chooseRuleset());
         this.ball = new Button(this, 680, 150, 'ball', 1, 1).setVisible(true)
         this.logo = this.add.image(680, 170, 'logo').setScale(0.5);
         this.GoalsButton = new Button(this, 420, 400, 'GoalsButton', 0.5, 0);
@@ -53,20 +54,32 @@ export default class Menu extends Phaser.Scene {
         this.happy2 = new Button(this, 600, 400, 'happy2', 0.15, -4);
         this.dead2 = new Button(this, 800, 400, 'dead2', 0.15, -0.5);
         this.umm2 = new Button(this, 1000, 400, 'umm2', 0.15, 1);
+        this.backbutton = new Button(this, 100, 400, 'backbutton', 0.25, 0);
+        this.buttonArray = [this.PlayButton, this.GoalsButton, this.TimeButton, this.GoalsButton5, this.GoalsButton7, this.GoalsButton9, this.TimeButton1,
+        this.TimeButton2, this.TimeButton3, this.angry1, this.angry2, this.happy1, this.happy2, this.umm1, this.umm2, this.dead1, this.dead2, this.backbutton];
+        this.deactivateButtons();
+        this.PlayButton.activate(() => this.chooseRuleset());
         this.menumusic = this.sound.add('menumusic');
         this.menumusic.play();
         this.menumusic.setLoop(true);
     }
 
+    deactivateButtons() {
+        this.buttonArray.forEach(element => {
+            element.deactivate();
+        });
+    }
+
     chooseRuleset() {
-        this.PlayButton.destroy();
+        this.deactivateButtons();
         this.GoalsButton.activate(() => this.chooseGoals());
         this.TimeButton.activate(() => this.chooseTimeLimit());
     }
 
     chooseGoals() {
-        this.GoalsButton.destroy();
-        this.TimeButton.destroy();
+        this.goaled = true;
+        this.timelimit = 0;
+        this.deactivateButtons();
         this.GoalsButton5.activate(() => {
             this.goals = 5;
             this.choosePlayer1();
@@ -79,13 +92,15 @@ export default class Menu extends Phaser.Scene {
             this.goals = 9;
             this.choosePlayer1();
         });
+        this.backbutton.activate(() => this.chooseRuleset());
     }
 
     chooseTimeLimit() {
-        this.GoalsButton.destroy();
-        this.TimeButton.destroy();
+        this.goaled = false;
+        this.goals = 0;
+        this.deactivateButtons();
         this.TimeButton1.activate(() => {
-            this.timelimit = 60;
+            this.timelimit = 9;
             this.choosePlayer1();
         });
         this.TimeButton2.activate(() => {
@@ -96,15 +111,11 @@ export default class Menu extends Phaser.Scene {
             this.timelimit = 180;
             this.choosePlayer1();
         });
+        this.backbutton.activate(() => this.chooseRuleset());
     }
 
     choosePlayer1() {
-        this.GoalsButton5.destroy();
-        this.GoalsButton7.destroy();
-        this.GoalsButton9.destroy();
-        this.TimeButton1.destroy();
-        this.TimeButton2.destroy();
-        this.TimeButton3.destroy();
+        this.deactivateButtons();
         this.angry1.activate(() => {
             this.player1 = 'angry1';
             this.choosePlayer2();
@@ -121,14 +132,13 @@ export default class Menu extends Phaser.Scene {
             this.player1 = 'umm1';
             this.choosePlayer2();
         });
+        if(this.goaled) this.backbutton.activate(() => this.chooseGoals());
+        else this.backbutton.activate(() => this.chooseTimeLimit());
     }
-    
+
     choosePlayer2() {
-        this.angry1.destroy();
-        this.happy1.destroy();
-        this.dead1.destroy();
-        this.umm1.destroy();
-        this.data = {loaded: true, goals: this.goals, time: this.timelimit, player1type: this.player1};
+        this.deactivateButtons();
+        this.data = { goals: this.goals, time: this.timelimit, player1type: this.player1 };
         this.angry2.activate(() => {
             this.data.player2type = 'angry2';
             this.scene.start('Match', this.data)
@@ -145,6 +155,7 @@ export default class Menu extends Phaser.Scene {
             this.data.player2type = 'umm2';
             this.scene.start('Match', this.data)
         });
+        this.backbutton.activate(() => this.choosePlayer1());
     }
 
     update() {

@@ -21,16 +21,16 @@ export default class Scoreboard {
         this.player1type = player1type;
         this.player2type = player2type;
         if (this.time > 0) this.timer = scene.time.delayedCall(time * 1000, () => {
-            this.end = true;
-            this.timer2 = scene.time.delayedCall(1000, () => {
+                this.end = true;
+                this.secondduration = Math.floor(this.time % 60);
+                if(this.secondduration < 10) this.secondduration = "0" + this.secondduration;
                 scene.scene.start('End', {
                     loaded: true, timelimit: this.time, minutes: Math.floor(this.time / 60),
-                    seconds: Math.floor(this.time % 60), goals: this.goals,
+                    seconds: this.secondduration, goals: this.goals,
                     rightScore: this.rightScore, leftScore: this.leftScore,
                     player1type: this.player1type, player2type: this.player2type
                 });
             }, [], this);        
-        }, [], this);
         else this.timer = scene.time.delayedCall(1000000, () => { }, [], this);
     }
 

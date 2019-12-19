@@ -4,10 +4,16 @@ export default class Button extends Phaser.GameObjects.Image {
         scene.add.existing(this);
         this.setScale(scale);
         this.setInteractive();
-        this.setVisible(false);
         this.angleChange = angleChange;
         this.scaleChange = scale;
         this.scene = scene;
+    }
+
+    deactivate(){
+        this.setVisible(false);
+        this.off('pointerover');
+        this.off('pointerout');
+        this.off('pointerdown');     
     }
 
     activate(action) {

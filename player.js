@@ -33,10 +33,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.applyForce({ x: 0, y: 0.05 });
     }
     if (this.cursors.left.isDown) {
-      this.setVelocityX(-7.5);
+      this.setVelocityX(-10);
     }
     else if (this.cursors.right.isDown) {
-      this.setVelocityX(7.5);
+      this.setVelocityX(10);
     }
 
     if (this.lag > 0) this.lag--;
@@ -74,8 +74,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         let force;
         let lag;
         let sprite;
-        if (this.weak.isDown) force = 0.25, lag = 25, sprite = 'weakattack';
-        if (this.strong.isDown) force = 0.5, lag = 50, sprite = 'strongattack';
+        if (this.weak.isDown) force = 0.15, lag = 20, sprite = 'weakattack';
+        if (this.strong.isDown) force = 0.4, lag = 50, sprite = 'strongattack';
         let x = this.x;
         let y = this.y;
         let forceX = 0;
