@@ -25,12 +25,12 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.setPosition(this.originX, this.originY);
   }
   preUpdate() {
-		if(this.x > this.scene.length || this.y > this.scene.height || this.y < 0 || this.x < 0) this.reset();
+    if (this.x > this.scene.length || this.y > this.scene.height || this.y < 0 || this.x < 0) this.reset();
     if (this.jump.isDown) {
-      if (this.y + 50 > this.scene.height) this.applyForce({ x: 0, y: -0.3 });
+      if (this.y + 50 > this.scene.height) this.applyForce({ x: 0, y: -0.55 });
     }
     else if (this.cursors.down.isDown) {
-      this.applyForce({ x: 0, y: 0.03 });
+      this.applyForce({ x: 0, y: 0.05 });
     }
     if (this.cursors.left.isDown) {
       this.setVelocityX(-7.5);
@@ -47,7 +47,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       switch (this.type.substr(0, 1)) {
         case "a":
           this.applyForce({ x: 0, y: 2 });
-          this.lag2 += 100;
+          this.lag2 += 50;
           break;
         case "h":
           this.reset();
@@ -55,7 +55,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
           break;
         case "d":
           this.applyForce({ x: 0, y: -1 });
-          this.lag2 += 100;
+          this.lag2 += 50;
           break;
         case "u":
           if (this.cursors.left.isDown && this.x > 200) {
@@ -74,8 +74,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         let force;
         let lag;
         let sprite;
-        if (this.weak.isDown) force = 0.25, lag = 50, sprite = 'weakattack';
-        if (this.strong.isDown) force = 0.5, lag = 100, sprite = 'strongattack';
+        if (this.weak.isDown) force = 0.25, lag = 25, sprite = 'weakattack';
+        if (this.strong.isDown) force = 0.5, lag = 50, sprite = 'strongattack';
         let x = this.x;
         let y = this.y;
         let forceX = 0;

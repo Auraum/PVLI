@@ -1,12 +1,12 @@
+import Button from './button.js'
+
 export default class End extends Phaser.Scene {
 
     constructor() {
-        super({ key: 'End', active: true });
-        this.loaded = false;
+        super({ key: 'End', active: false });
     }
 
     init(data) {
-        this.loaded = data.loaded;
         this.goals = data.goals;
         this.timelimit = data.timelimit;
         this.minutes = data.minutes;
@@ -25,58 +25,43 @@ export default class End extends Phaser.Scene {
     }
 
     create() {
-        if (!this.loaded) this.scene.start('Menu');
-        else {
-            this.sound.stopAll();
-            this.endmusic = this.sound.add('endmusic');
-            this.endmusic.play();
-            this.endmusic.setLoop(true);
-            this.bg = this.add.image(670, 150, 'bg');
-            this.bg.setScale(1.4);
-            this.textbox = this.add.image(680, 115, 'Textbox');
-            this.textbox.setScale(0.75, 0.5);
-            this.textbox.setAngle(2);
-            this.endText = this.add.text(360, 30, "", {
-                font: "bold 45px Arial Black",
-                fill: "#000000",
-                align: "center",
-            });
-            if (this.rightScore == this.leftScore) {
-                this.endText.setText("It was a draw! \n The result was " +
-                    this.leftScore + " - " + this.rightScore + "\nand the match lasted " +
-                    this.minutes + ":" + this.seconds);
-            }
-            else {
-                if (this.rightScore > this.leftScore) this.winner = "Player 2";
-                else this.winner = "Player 1";
-                this.endText.setText(this.winner + " wins! \n The result was " +
-                    this.leftScore + " - " + this.rightScore + "\nand the match lasted " +
-                    this.minutes + ":" + this.seconds);
-            }
-            this.RematchButton = this.add.image(680, 300, 'RematchButton');
-            this.RematchButton.setScale(0.5);
-            this.RematchButton.setInteractive();
-            this.RematchButton.on('pointerdown', () => {
-                this.scene.start('Match', {
-                    loaded: true, timelimit: this.timelimit, goals: this.goals,
-                    player1type: this.player1type, player2type: this.player2type
-                });
-            });
-            this.MainMenuButton = this.add.image(680, 400, 'MainMenuButton');
-            this.MainMenuButton.setScale(0.5);
-            this.MainMenuButton.setInteractive();
-            this.MainMenuButton.on('pointerdown', () => {
-                this.scene.start('Menu');
-            });
-            this.player1 = this.add.image(400, 350, this.player1type);
-            this.player1.setScale(0.25);
-            this.player2 = this.add.image(950, 350, this.player2type);
-            this.player2.setScale(0.25);
+        this.sound.stopAll();
+        this.endmusic = this.sound.add('endmusic');
+        this.endmusic.play();
+        this.endmusic.setLoop(true);
+        this.bg = this.add.image(670, 150, 'bg').setScale(1.4);
+        this.textbox = this.add.image(680, 115, 'Textbox').setScale(0.75, 0.5).setAngle(2);
+        this.endText = this.add.text(360, 30, "", {
+            font: "bold 45px Arial Black",
+            fill: "#000000",
+            align: "center",
+        });
+        if (this.rightScore == this.leftScore) {
+            this.endText.setText("It was a draw! \n The result was " +
+                this.leftScore + " - " + this.rightScore + "\nand the match lasted " +
+                this.minutes + ":" + this.seconds);
         }
+        else {
+            if (this.rightScore > this.leftScore) this.winner = "Player 2";
+            else this.winner = "Player 1";
+            this.endText.setText(this.winner + " wins! \n The result was " +
+                this.leftScore + " - " + this.rightScore + "\nand the match lasted " +
+                this.minutes + ":" + this.seconds);
+        }
+        this.RematchButton = new Button(this, 680, 300, 'RematchButton', 0.5, 0);
+        this.RematchButton.activate(() => {
+            this.scene.start('Match', {
+                loaded: true, timelimit: this.timelimit, goals: this.goals,
+                player1type: this.player1type, player2type: this.player2type
+            });
+        });
+        this.MainMenuButton = new Button(this, 680, 400, 'MainMenuButton', 0.5, 0);
+        this.MainMenuButton.activate(() => this.scene.start('Menu'));
+        this.player1 = new Button(this, 400, 350, this.player1type, 0.25, 1).setVisible(true);
+        this.player2 = new Button(this, 950, 350, this.player2type, 0.25, -1).setVisible(true);
+        this.player2.setScale(0.25);
     }
 
     update() {
-        this.player1.angle++;
-        this.player2.angle--;
     }
 };
