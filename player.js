@@ -5,7 +5,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     super(scene.matter.world, x, y, sprite);
     scene.add.existing(this);
     this.setScale(.15);
-    this.setBounce(0.5);
+    this.setBounce(0.2);
     this.cursors = scenecursors;
     this.scene = scene;
     this.originX = x;
@@ -16,7 +16,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.jump = jump;
     this.special = special;
     this.lag = 0;
-    this.lag2 = 0;
+    this.lagspecial = 0;
     this.type = sprite;
   }
   reset() {
@@ -27,35 +27,34 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
   preUpdate() {
     if (this.x > this.scene.length || this.y > this.scene.height || this.y < 0 || this.x < 0) this.reset();
     if (this.jump.isDown) {
-      if (this.y + 50 > this.scene.height) this.applyForce({ x: 0, y: -0.55 });
+      if (this.y + 50 > this.scene.height || (this.type.substr(0, 1) == "d" && this.lagspecial == 0)) {
+        this.applyForce({ x: 0, y: -0.55 });
+        if(this.type.substr(0, 1) == "d") this.lagspecial += 10;
+      }
     }
     else if (this.cursors.down.isDown) {
       this.applyForce({ x: 0, y: 0.05 });
     }
     if (this.cursors.left.isDown) {
-      this.setVelocityX(-10);
+      this.setVelocityX(-7.5);
     }
     else if (this.cursors.right.isDown) {
-      this.setVelocityX(10);
+      this.setVelocityX(7.5);
     }
 
     if (this.lag > 0) this.lag--;
-    if (this.lag2 > 0) this.lag2--;
+    if (this.lagspecial > 0) this.lagspecial--;
 
 
-    if (this.special.isDown && this.lag2 == 0) {
+    if (this.special.isDown && this.lagspecial == 0) {
       switch (this.type.substr(0, 1)) {
         case "a":
           this.applyForce({ x: 0, y: 2 });
-          this.lag2 += 50;
+          this.lagspecial += 20;
           break;
         case "h":
           this.reset();
-          this.lag2 += 10;
-          break;
-        case "d":
-          this.applyForce({ x: 0, y: -1 });
-          this.lag2 += 50;
+          this.lagspecial += 10;
           break;
         case "u":
           if (this.cursors.left.isDown && this.x > 200) {
@@ -64,7 +63,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
           else if (this.cursors.right.isDown && this.x < 1150) {
             this.setPosition(this.x + 200, this.y);
           }
-          this.lag2 += 50;
+          this.lagspecial += 20;
+          break;
+        default:
           break;
       }
     }
@@ -74,7 +75,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         let force;
         let lag;
         let sprite;
-        if (this.weak.isDown) force = 0.15, lag = 20, sprite = 'weakattack';
+        if (this.weak.isDown) force = 0.25, lag = 25, sprite = 'weakattack';
         if (this.strong.isDown) force = 0.4, lag = 50, sprite = 'strongattack';
         let x = this.x;
         let y = this.y;

@@ -3,7 +3,7 @@ import Button from './button.js'
 export default class Menu extends Phaser.Scene {
 
     constructor() {
-        super({ key: 'Menu', active: true });
+        super({ key: 'Menu'});
     }
 
     preload() {
@@ -28,7 +28,8 @@ export default class Menu extends Phaser.Scene {
         this.load.image('umm1', 'sprites/umm1.jpg');
         this.load.image('umm2', 'sprites/umm2.jpg');
         this.load.image('backbutton', 'sprites/backbutton.png');
-        this.load.audio('menumusic', 'music/menu.ogg');
+        this.load.audio('menumusic', 'music/menu.mp3');
+        this.load.audio('button', 'sfx/buttonpress.mp3');
     }
 
     create() {

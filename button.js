@@ -7,6 +7,7 @@ export default class Button extends Phaser.GameObjects.Image {
         this.angleChange = angleChange;
         this.scaleChange = scale;
         this.scene = scene;
+        this.soundeffect = scene.sound.add('button');
     }
 
     deactivate(){
@@ -21,6 +22,7 @@ export default class Button extends Phaser.GameObjects.Image {
         this.on('pointerover', () => { this.setScale(this.scaleChange * 1.2) });
         this.on('pointerout', () => { this.setScale(this.scaleChange) });
         this.on('pointerdown', action);
+        this.on('pointerdown', ()=> { this.soundeffect.play();});
     }
 
     preUpdate() {

@@ -3,7 +3,7 @@ import Button from './button.js'
 export default class End extends Phaser.Scene {
 
     constructor() {
-        super({ key: 'End', active: false });
+        super({ key: 'End'});
     }
 
     init(data) {
@@ -21,7 +21,8 @@ export default class End extends Phaser.Scene {
         this.load.image('RematchButton', 'sprites/rematchbutton.png');
         this.load.image('MainMenuButton', 'sprites/mainmenubutton.png');
         this.load.image('Textbox', 'sprites/textbox.png');
-        this.load.audio('endmusic', 'music/end.ogg');
+        this.load.audio('endmusic', 'music/end.mp3');
+        this.load.audio('button', 'sfx/buttonpress.mp3');
     }
 
     create() {

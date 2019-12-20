@@ -22,6 +22,7 @@ export default class Scoreboard {
         this.player2type = player2type;
         if (this.time > 0) this.timer = scene.time.delayedCall(time * 1000, () => {
                 this.end = true;
+                scene.whistle.play();
                 this.secondduration = Math.floor(this.time % 60);
                 if(this.secondduration < 10) this.secondduration = "0" + this.secondduration;
                 scene.scene.start('End', {
@@ -39,7 +40,8 @@ export default class Scoreboard {
         if (this.goals > 0) {
             if (this.rightScore >= this.goals || this.leftScore >= this.goals) {
                 this.end = true;
-                this.timer2 = this.scene.time.delayedCall(1000, () => {
+                this.scene.whistle.play();
+                this.timer2 = this.scene.time.delayedCall(this.scene.whistle.totalDuration * 1000, () => {
                     this.scene.scene.start('End', {
                         loaded: true, timelimit: this.time, minutes: this.minutes,
                         seconds: this.seconds, goals: this.goals,

@@ -6,7 +6,7 @@ import Scoreboard from './scoreboard.js'
 export default class Match extends Phaser.Scene {
 
     constructor() {
-        super({ key: 'Match', active: false });
+        super({ key: 'Match'});
     }
 
     init(data) {
@@ -23,16 +23,23 @@ export default class Match extends Phaser.Scene {
         this.load.image('rightgoal', 'sprites/rightgoal.png');
         this.load.image('weakattack', 'sprites/weakattack.png');
         this.load.image('strongattack', 'sprites/strongattack.png');
-        this.load.audio('matchmusic', 'music/syncopika.ogg');
+        this.load.audio('matchmusic', 'music/syncopika.mp3');
+        this.load.audio('whistle', 'sfx/whistlelong.mp3');
+        this.load.audio('whistleshort', 'sfx/whistleshort.mp3');
+        this.load.audio('weakkick', 'sfx/weakkick.mp3');
+        this.load.audio('bounce', 'sfx/bounce (2).mp3');
+
     }
 
     create() {
         this.sound.stopAll();
+        this.matchmusic = this.sound.add('matchmusic');
+        this.whistle = this.sound.add('whistle');       
+        this.whistleshort = this.sound.add('whistleshort');
+        this.bounce = this.sound.add('bounce');
+        this.kick = this.sound.add('weakkick');
         this.bg = this.add.image(670, 150, 'bg');
         this.bg.setScale(1.4);
-        this.matchmusic = this.sound.add('matchmusic');
-        this.matchmusic.play();
-        this.matchmusic.setLoop(true);
         this.matter.world.setBounds(0, 0, 1350, 500);
         this.height = 500;
         this.cursors2 = this.input.keyboard.addKeys({
@@ -73,6 +80,7 @@ export default class Match extends Phaser.Scene {
             if (bodyA.isSensor) {
                 if (bodyA.label === 'attack') {
                     this.ball.applyForces(bodyA.gameObject.forceX, bodyA.gameObject.forceY);
+                    this.kick.play();
                     bodyA.destroy();
                 }
                 else {
@@ -81,6 +89,7 @@ export default class Match extends Phaser.Scene {
                     else this.scoreboard.leftScore++;
                     this.scoreboard.showScore();
                     if (!this.scoreboard.end) {
+                        this.whistleshort.play();
                         this.timer = this.time.delayedCall(500, () => {
                             this.ball.reset();
                             this.player1.reset();
@@ -89,7 +98,13 @@ export default class Match extends Phaser.Scene {
                     }
                 }
             }
+            else this.bounce.play();
         });
+        this.whistle.play();
+        this.whistletime = this.time.delayedCall(this.whistle.totalDuration * 1000, () => {
+            this.matchmusic.play();
+            this.matchmusic.setLoop(true);
+        },[],this);
     }
 
     update() {
